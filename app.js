@@ -1,21 +1,9 @@
 const express = require('express')
 const app = express()
+const path = require('path')
+const router = require(path.resolve('app/routes/router'))
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
-
-app.post('/', function (req, res) {
-    res.send('Got a POST request')
-})
-
-app.put('/user', function (req, res) {
-    res.send('Got a PUT request at /user')
-})
-
-app.delete('/user', function (req, res) {
-    res.send('Got a DELETE request at /user')
-})
+app.use('/', router)
 
 const cb0 = function (req, res, next) {
     console.log('CB0')
