@@ -3,6 +3,7 @@ const router = express.Router()
 
 const basic = require('../controllers/basic')
 const middleware = require('../controllers/middleware')
+const bodyparser = require('../controllers/bodyparser')
 
 router.route('/')
   .get(basic.get)
@@ -14,5 +15,8 @@ router.route('/user')
 
 router.route('/middleware')
   .get(middleware)
+
+router.route('/body')
+  .post(bodyparser)
 
 module.exports = router
