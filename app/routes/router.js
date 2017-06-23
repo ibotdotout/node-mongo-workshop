@@ -6,6 +6,7 @@ const middleware = require('../controllers/middleware')
 const bodyparser = require('../controllers/bodyparser')
 const queryParams = require('../controllers/query-params')
 const users = require('../controllers/users')
+const todolists = require('../controllers/todolists')
 
 router.route('/')
   .get(basic.get)
@@ -20,6 +21,15 @@ router.route('/users/:id')
   .put(users.update)
   .delete(users.del)
 
+router.route('/todolists')
+  .get(todolists.list)
+  .post(todolists.create)
+
+router.route('/todolists/:id')
+  .get(todolists.get)
+  .put(todolists.update)
+  .post(todolists.del)
+
 router.route('/middleware')
   .get(middleware)
 
@@ -30,6 +40,6 @@ router.route('/items/:id')
   .get(queryParams.get)
 
 router.route('/health')
-	.get((req, res) => res.json({ok: true}))
+  .get((req, res) => res.json({ok: true}))
 
 module.exports = router
