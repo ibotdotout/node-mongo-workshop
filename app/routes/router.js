@@ -23,4 +23,7 @@ router.route('/body')
 router.route('/items/:id')
   .get(queryParams.get)
 
+router.route('/health')
+	.get((req, res) => res.json({ok: true}))
+
 module.exports = router
