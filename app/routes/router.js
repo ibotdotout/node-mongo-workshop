@@ -7,6 +7,7 @@ const bodyparser = require('../controllers/bodyparser')
 const queryParams = require('../controllers/query-params')
 const users = require('../controllers/users')
 const todolists = require('../controllers/todolists')
+const tasks = require('../controllers/tasks')
 
 router.route('/')
   .get(basic.get)
@@ -29,6 +30,20 @@ router.route('/todolists/:id')
   .get(todolists.get)
   .put(todolists.update)
   .post(todolists.del)
+
+router.route('/todolists')
+  .get(todolists.list)
+  .post(todolists.create)
+
+router.route('/todolists/:id')
+  .get(todolists.get)
+  .put(todolists.update)
+  .post(todolists.del)
+
+router.route('/todolists/:id/tasks')
+  .post(tasks.create)
+  .put(tasks.update)
+  .delete(tasks.del)
 
 router.route('/middleware')
   .get(middleware)
