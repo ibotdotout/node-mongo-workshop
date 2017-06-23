@@ -22,7 +22,7 @@ async function create (req, res, next) {
 	try {
 		let user = new User(body)
 		user = await user.save()
-		return res.status(200).json(user)
+		return res.status(201).json(user)
 	} catch (err) {
 		console.error(err)
 		return res.status(500).json({err: 'some thing error'})
