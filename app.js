@@ -3,6 +3,8 @@ const app = express()
 const bodyParser = require('body-parser')
 const path = require('path')
 const router = require(path.resolve('app/routes/router'))
+const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
 
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
@@ -17,6 +19,8 @@ app.use(urlencodedParser)
 app.use('/', router)
 
 if (NODE_ENV !== 'test') {
+	mongoose.connect('mongodb://localhost/node_workshop');
+
 	app.listen(3000, function () {
 		console.log('Example app listening on port 3000!')
 	})

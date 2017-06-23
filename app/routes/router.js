@@ -5,14 +5,20 @@ const basic = require('../controllers/basic')
 const middleware = require('../controllers/middleware')
 const bodyparser = require('../controllers/bodyparser')
 const queryParams = require('../controllers/query-params')
+const users = require('../controllers/users')
 
 router.route('/')
   .get(basic.get)
   .post(basic.post)
 
-router.route('/user')
-  .put(basic.put)
-  .delete(basic.del)
+router.route('/users')
+  .get(users.list)
+  .post(users.create)
+
+router.route('/users/:id')
+  .get(users.get)
+  .put(users.update)
+  .post(users.del)
 
 router.route('/middleware')
   .get(middleware)
