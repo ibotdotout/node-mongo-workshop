@@ -18,7 +18,7 @@ router.route('/users')
 router.route('/users/:id')
   .get(users.get)
   .put(users.update)
-  .post(users.del)
+  .delete(users.del)
 
 router.route('/middleware')
   .get(middleware)
