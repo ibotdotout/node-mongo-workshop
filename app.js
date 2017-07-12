@@ -24,6 +24,10 @@ app.use(passport.initialize())
 
 app.use('/', router)
 
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({ message: err.message || err })
+})
+
 if (NODE_ENV !== 'test') {
   mongoose.connect('mongodb://localhost/node_workshop');
 
