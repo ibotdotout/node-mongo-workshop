@@ -1,4 +1,5 @@
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 
 const basic = require('../controllers/basic')
@@ -56,5 +57,17 @@ router.route('/items/:id')
 
 router.route('/health')
   .get((req, res) => res.json({ok: true}))
+
+router.post('/auth/signup',
+  passport.authenticate('local-signup', {session: false}),
+  (req, res) => {
+    res.status(200).json({sussess: true, message: 'signup'})
+  })
+
+router.post('/auth/login',
+  passport.authenticate('local-login', {session: false}),
+  (req, res) => {
+    res.status(200).json({sussess: true, message: 'login'})
+  })
 
 module.exports = router
