@@ -1,7 +1,9 @@
 const express = require('express')
+const expressJwt = require('express-jwt')
 const passport = require('passport')
 const router = express.Router()
 
+const jwt = require('../controllers/jwt')
 const basic = require('../controllers/basic')
 const middleware = require('../controllers/middleware')
 const bodyparser = require('../controllers/bodyparser')
@@ -9,6 +11,10 @@ const queryParams = require('../controllers/query-params')
 const users = require('../controllers/users')
 const todolists = require('../controllers/todolists')
 const tasks = require('../controllers/tasks')
+
+// TODO: change it
+const secretKey = 'node-jwt-secert-testing'
+const authenticate = expressJwt({ secret: secretKey, credentialsRequired: true })
 
 router.route('/')
   .get(basic.get)
@@ -25,7 +31,7 @@ router.route('/users/:id')
 
 router.route('/todolists')
   .get(todolists.list)
-  .post(todolists.create)
+  .post(authenticate, todolists.create)
 
 router.route('/todolists/:id')
   .get(todolists.get)
@@ -60,14 +66,12 @@ router.route('/health')
 
 router.post('/auth/signup',
   passport.authenticate('local-signup', {session: false}),
-  (req, res) => {
-    res.status(200).json({sussess: true, message: 'signup'})
-  })
+  jwt.generateToken(secretKey),
+  jwt.respondToken)
 
 router.post('/auth/login',
   passport.authenticate('local-login', {session: false}),
-  (req, res) => {
-    res.status(200).json({sussess: true, message: 'login'})
-  })
+  jwt.generateToken(secretKey),
+  jwt.respondToken)
 
 module.exports = router
