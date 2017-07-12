@@ -22,7 +22,11 @@ async function localSignup (req, email, password, next) {
     return next(err) // user existed
   } else { // new user
     try {
-      user = await new User({email, password}).save()
+      user = new User()
+      const hashPassword = user.generateHash(password)
+      user.email = email
+      user.password = hashPassword
+      user = await user.save()
       return next(null, user)
     } catch (err) {
       return next(err)
@@ -36,22 +40,22 @@ async function localLogin (req, email, password, next) {
 
   try {
     user = await User.findOne({ 'email': email })
+
+    if (!user || !user.validPassword(password)) { // valid is sync
+      user = null
+      err = new Error()
+      err.name = 'UnauthorizedError'
+      err.message = 'user not found or invalid user'
+      err.status = 401
+
+      console.log(`${email} - ${err.message}`)
+      return next(err)
+    }
+
+    return next(null, user)
   } catch (err) {
     return next(err)
   }
-
-  if (!user || user.password !== password) {
-    user = null
-    err = new Error()
-    err.name = 'UnauthorizedError'
-    err.message = 'user not found or invalid user'
-    err.status = 401
-
-    console.log(`${email} - ${err.message}`)
-    return next(err)
-  }
-
-  return next(null, user)
 }
 
 module.exports = {
